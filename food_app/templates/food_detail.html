@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            max-width:600px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .review-box {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .rating-stars {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        .rating-stars input {
+            display: none;
+        }
+        .rating-stars label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+        }
+        .rating-stars input:checked ~ label {
+            color: #ffca08;
+        }
+        .rating-stars label:hover,
+        .rating-stars label:hover ~ label {
+            color: #ffca08;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" >
+        <h1>{{item.name}}</h1>
+            <img src="{{item.image.url}}" style="max-width: 200px; border-radius: 10px; margin-top: 10px;">
+            <p>{{item.description}} </p>
+            <p>Price: Rs{{item.price}}</p>
+        
+
+        <hr>
+        <h3>Add Rating & Review</h3>
+        <form method="POST" action="{% url 'save_rating' item.id %}">
+            {% csrf_token %}
+            <label>Select Stars:</label>
+            <div class="rating-stars">
+                <input type="radio" name="rating" id="star5" value="5"{% if user_rating == 5 %}checked{% endif %}><label for="star5">★</label>
+                <input type="radio" name="rating" id="star4" value="4"{% if user_rating == 4 %}checked{% endif %}><label for="star4">★</label>
+                <input type="radio" name="rating" id="star3" value="3"{% if user_rating == 3 %}checked{% endif %}><label for="star3">★</label>
+                <input type="radio" name="rating" id="star2" value="2"{% if user_rating == 2 %}checked{% endif %}><label for="star2">★</label>
+                <input type="radio" name="rating" id="star1" value="1"{% if user_rating == 1 %}checked{% endif %}><label for="star1">★</label>
+            </div>
+            <!-- <select name="rating">
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select> -->
+            <br>
+            <textarea name="review" placeholder="Write your review here..."></textarea>
+            <br>
+            <button type="submit" style="margin-top:15px ;">Submit Rating</button>
+        </form>
+        <hr>
+
+        <h3>User Reviews</h3>
+        {% for r in ratings %}
+            <div class="review-box">
+                <p><strong>User:</strong>{{ r.user.username }}</p>
+                <p><strong>Rating:</strong>
+                    <span style="color: #ffca08;">
+                        {% for i in "12345"|slice:r.rating %}★{% endfor %}
+                    </span>
+                    <span style="color: #ccc;">
+                        {% for i in "12345"|slice:r.remaining_stars %}★{% endfor %}
+                    </span>
+                </p>
+                <p><strong>Review:</strong>{{ r.review }}</p>
+            </div>
+        {% empty %}
+            <p>There are no reviews yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

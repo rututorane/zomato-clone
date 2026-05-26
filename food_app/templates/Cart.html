@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Your Food Cart 🛒</h1>
+    <table border="1" style="width:80%; text-align: center;"> 
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+        </tr>
+        {% for entry in cart_items %}
+        <tr>
+            <td>{{ entry.item.name }}</td>
+            <td>{{ entry.quantity }}</td>
+            <td>{{ entry.item.price}}Rs.</td>
+            <td>{% widthratio entry.item.price 1 entry.quantity %}Rs.</td>
+            <td>
+                <a href="{% url 'remove_item' entry.id %}" style="color: red; text-decoration: none; font-weight: bold;"> Remove❌</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Total Bill: {{ total }} Rs.</h3>
+    <div style="margin-top: 15px; margin-bottom: 15px;">
+        <a href="{% url 'checkout' %}" style="background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Proceed to Checkout</a>
+    </div>
+    <a href="{% url 'home' %}" style="text-decoration: none; color: #cb202d; font-weight: bold;"> + Add more food</a>
+</body>
+</html>

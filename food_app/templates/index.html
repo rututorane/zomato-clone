@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato Clone</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; margin: 0; padding: 0; }
+        h1 { color: #cb202d; margin-top: 20px; }
+        
+        .nav-links { text-align: right; margin-right: 20px; padding: 10px; }
+        .nav-links a { text-decoration: none; color: #333; font-weight: bold; margin-left: 15px; }
+
+       
+        .category-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 6px 15px ; margin: 20px;}
+        .category-link { 
+            text-decoration: none; padding: 6px 15px; background-color: white; color: #333; 
+            border: 1px solid #ddd; border-radius: 20px; font-size: 14px; background: #fff; 
+        }
+        .category-link:hover { background-color: #cb202d; color: white; border-color: #cb202d; }
+
+   
+        .container { display: flex; flex-wrap: wrap; justify-content: flex-start; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto;}
+        .food-card { 
+            width: 31%; min-width:300px; background:  #fff; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+            overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: left; 
+        }
+        .food-card img { width: 100%; height: 220px; object-fit: contain; background-color: #fff; display: block; }
+        .card-content { 
+            padding: 15px; 
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+        .price { color: #2d2d2d; font-weight: bold; font-size: 18px; }
+        .add-btn { 
+            background-color: #cb202d; 
+            color: white; 
+            padding: 0; 
+            text-decoration: none;
+            border-radius: 4px; 
+            font-weight: bold;
+            display:flex;
+            font-size: 12px;
+            width: 50px; 
+            height: 25px; 
+            align-items: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+        
+
+        }
+        .rating-selection {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stars {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        .stars label {
+            padding: 5px 12px;
+            background-color: #eee;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .stars input:checked + label {
+            background-color: #cb202d;
+            color: white;
+        }
+        stars input {
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="nav-links" style="text-align: right; padding: 15px 30px;">
+        {% if user.is_authenticated %}
+            <span style="font-weight: bold; margin-right: 15px; color: #333;"> Welcome, {{ user.username}}! </span>
+            <a href="{% url 'my_orders' %}" style="text-decoration: none; color: #333; font-weight: bold; margin-left: 15px;">My Orders</a>
+            <a href="{% url 'wishlist_page' %}" style="text-decoration: none; color: #333; font-weight: bold; margin-left: 15px;"> Wishlist ❤️</a>
+            <a href="{% url 'cart_page' %}" style="text-decoration: none; color: #333; font-weight: bold; margin-left: 15px;">View My Cart 🛒</a>
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: #cb202d; font-weight: bold; margin-left: 15px;">logout🚫</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="text-decoration: none; color: #cb202d; font-weight: bold; margin-left: 15px;">Login 🔑</a>
+            <a href="{% url 'signup' %}" style="text-decoration: none; color: #333; font-weight: bold; margin-left: 15px;">Sign Up📝</a>
+        {% endif %}
+    </div>
+
+    <h1>Zomato Clone - Food Menu</h1>
+
+    <div style="margin-bottom: 20px;">
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text" name="search" placeholder="Search for food..." value="{{ request.GET.search }}" 
+                   style="width: 40%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            <button type="submit" style="padding: 10px 20px; background: #cb202d; color: white; border: none; border-radius: 5px;
+             cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div> 
+   
+
+    <div class="category-container">
+        <a href="/" class="category-link" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #cb202d; border-radius: 20px; font-weight: bold; font-size: 14px;">All</a>
+        <a href="?category=Pizza"  style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Pizza</a>
+        <a href="?category=Burger" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Burger</a>
+        <a href="?category=Biryani" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Biryani</a>
+        <a href="?category=Thali" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Thali</a>
+        <a href="?category=Gujarati" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Gujarati</a>
+        <a href="?category=Chinese" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Chinese</a>
+        <a href="?category=Desserts" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Desserts</a>
+        <a href="?category=Pasta" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Pasta</a>
+        <a href="?category=Sandwiches" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Sandwiches</a>
+        <a href="?category=Momos" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Momos</a>
+        <a href="?category=Ice Cream" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Ice Cream</a>
+        <a href="?category=Drink" style="text-decoration: none; padding: 8px 18px; background-color: white; color: #333; border: 1px solid #ddd; border-radius: 20px; font-weight: bold; font-size: 14px;">Drink</a>
+    </div>
+
+    <div class="filter-button" style="margin: 20px 0; text-align: center;">
+        <a href="?type=veg" style="padding: 8px 16px; background: #28a745; color: white; border-radius: 20px; text-decoration: none;">Veg Only</a>
+        <a href="?type=non-veg" style="padding: 8px 16px; background: #dc3545; color: white; border-radius: 20px; text-decoration: none;">Non-Veg</a>
+    </div>
+
+    <div class="container">
+        {% for item in items %}
+        <div class="food-card" style="position: relative;">
+            <a href="{% url 'add_to_Wishlist' item.id %}" style="position: absolute; top: 10px; right: 10px; text-decoration:none; font-size: 20px; z-index: 10;">
+                {% if item.id in user_wishlist_ids %}
+                    ❤️
+                {% else %}
+                    🤍
+                {% endif %}
+            </a>
+            <a href="{% url 'food_detail' item.id %}" style="text-decoration: none; text-align: center; justify-content: center;">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width: 100%; cursor: pointer; text-decoration: none; text-align: center; justify-content: center; margin-bottom: 15px;">
+                {% endif %}
+                <h3 style="margin: 0; color: black; font-size: 18px; text-decoration: none; text-align: center; justify-content: center;">{{item.name}}</h3>
+            </a>
+              
+
+            <div class="card-content">
+                <p style="color: #666; font-size: 14px;">{{ item.description|truncatewords:10 }}</p>
+                <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span class="price">₹{{ item.price }}</span>
+                    <a href="{% url 'add_to_cart' item.id %}" class="add-btn"> Add+ </a>
+                    <button class="share-btn" data-name=" {{ item.name}}" data-price=" {{item.price}}"  style="background-color: #f0f9ff;
+                     border: none; color: #0284c7; padding: 6px;cursor: pointer; font-weight: bold; font-size: 13px;">🔗Share</button>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function(){
+        const shareButtons = document.querySelectorAll('.share-btn');
+        shareButtons.forEach(button => { button.addEventListener('click',function(){
+            const foodName=this.getAttribute('data-name');
+            const price =this.getAttribute('data-price');
+            const shareText="Hey! check out this delicious" + foodName +" for just Rs." +  price + " on Zomato Clone! 🍕";
+            const shareUrl=window.location.href;
+            navigator.clipboard.writeText(shareUrl).then(() =>
+        {
+            alert("⚠️Link copied to clipboard!\n\n"+ shareText);
+        })
+        .catch(err => {
+            console.error("Could not copy text:",err);
+        });
+        });
+    });
+
+    });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders -Zomato Clone</title>
+    <style>
+        body {
+            font-family: Arial,
+            sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .orders-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        h2 {
+            color: #cb202d;
+            border-bottom: 2px solid #f4f4f4;
+            padding-bottom: 12px;
+            margin-top: 0;
+        }
+        .order-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+            transition: 0.2s;
+        }
+        .order-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 8px;
+        }
+        .price {
+            color: green;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #cb202d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .status-badge {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="orders-container">
+        <a href="{% url 'home' %}" class="back-btn"> 🔙Back to Menu</a>
+        <h2>My Order History📜</h2>
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order-card">
+                <div class="order-header">
+                    <span>Order Id: #{{order.id}}</span>
+                    <span style="font-weight: normal; color: #777;">{{order.created_at|date:"d M Y, h:i A"}}</span>
+                </div>
+                <p style="margin: 5px 0;">Status: <span class="status-badge">Out for Delivery🛵</span></p>
+                <p style="margin: 5px 0;">Total Amount: <span class="price">Rs.{{order.total_bill}}</span></p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; color:#666; padding: 20px; font-size: 15px;">you haven't orderd anything yet. Order some delicious food right away! </p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <div class="payment-methods" style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 15px;">
+            <h3> Select Payment Method </h3>
+            <div style="margin-bottom:10px">
+                <label style="font-size: 16px; cursor:pointer;">
+                    <input type="radio" name="payment_method" value="COD" checked style="margin-right: 10px;">💸Cash on Delivery (COD)
+                </label>
+            </div>
+
+            <div>
+                <label style="font-size:16px; cursor:pointer;">
+                    <input type="radio" name="payment_method" value="UPI" style="margin-right: 10px;">📱Pay via UPI (GPay/PhonePe/Payment)
+                </label>
+            </div>
+        </div>
+        <div class="'coupon-section" style="margin-top: 20px; margin-bottom: 20px; border-top: 1px solid #ddd; padding-top:15px;" >
+            <h3>Have a Coupon?</h3>
+            <div style="margin-bottom: 10px;">
+                <input type="text" name="coupon_code" placeholder="Enter Coupon code (e.g. SAVE%)" style="padding: 8px; width: 250px;
+                 border: 1px solid #ccc; border-radius: 4px; text-transform: uppercase;">
+            </div>
+        </div>
+        <button type="submit" style="padding: 10px 20px; cursor: pointer; margin-top: 20px; background-color: #cb202d; color: white; 
+        border: none; border-radius: 5px; font-weight: bold;"> Place My Order</button>
+    </form>   
+        
+</body>
+</html>
+    
+
+     

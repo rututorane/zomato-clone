@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment Gateway</title>
+    <style>
+        body {
+            font-family: Segoe UI, Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 50px 10px;
+        }
+        .payment-box {
+            background: white;
+            padding: 30px;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+        }
+        .btn-pay {
+            background: #cb202d;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 20px;
+            transition: 0.2s;
+        }
+        .btn-pay:hover {
+            background: #a81722;
+        }
+        .qr-mock {
+            width: 180px;
+            height: 180px;
+            background: #f9f9f9;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            color: #555;
+        }
+        .upi-icons {
+            font-size: 24px;
+            margin: 15px 0;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-box">
+        <h2 style="color: #333; margin-bottom: 5px;">📱UPI Payment Screen</h2>
+        <p style="color: #666; font-size: 14px; margin-top: 0;">Scan the QR or click the button below to pay</p>
+        <div class="qr-mock">
+            <div style="text-align: center;">
+                <span style="font-size: 40px;">📱</span><br>
+                <span style="font-size: 12px; color: #888;">[Dummy QR Code</span>
+            </div>
+        </div>
+        <div class="upi-icons">
+            Google Pay | PhonePe | Paytm
+        </div>
+        <p style="font-size: 16px; color: #333;"><strong>Merchant:</strong>Zomato Clone Restaurant</p>
+        <form action="/checkout/" method="POST">
+            <a href="?success=true" style="text-decoration: none;">
+                <button type="button" class="btn-pay" onclick="alert('Payment Successful!🎉'); window.location.href='/checkout/';"
+                 style="background-color: #28a745;">Simulate success payment</button>
+            </a>
+        </form>
+    </div>
+</body>
+</html>

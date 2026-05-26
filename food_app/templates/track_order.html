@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <style>
+        body {
+            font-family: Arial,sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f4;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: inline-block;
+            width: 450px;
+            text-align: left;
+        }
+        h2 {
+            color: #222;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .order-id {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        .status-container {
+            margin-top: 25px;
+            position: relative;
+            padding-left: 35px;
+        }
+        .status-container::before { content: ""; position: absolute; left: 12px; top: 10px; bottom: 15px; width: 3px; background: #e2e8f0;}
+        .active {
+            color: #e11d48;
+        }
+        .active::before {
+            background: #e11d48; border-color: #e11d48; box-shadow: 0 0 10px rgba(225,29,72,0.6);
+        }
+        .info-box {
+            background: #f8fafc; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 15px; color: #334155; border-left: 4px solid #cbd5e1;
+        }
+        .btn {
+            display: block; text-align: center; margin-top: 20px; padding: 12px; background-color: #1e293b; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🍕Track Your Order</h2>
+        <div class="order-id">Order Reference : #{{order.id}}</div>
+        <div class="info-box">
+            <strong>Delivery To :</strong>{{ order.full_name}} <br>
+            <strong>Amount paid :</strong>Rs. {{ order.total_bill}}
+        </div>
+        <div class="status-container">
+            <div class="status-step {% if order.status == 'pending' or order.status == 'preparing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+               ✅ Order Received Successfully
+            </div>
+
+            <div class="status-step {% if order.status == 'preparing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+                Kitchen is preparing your meals 
+            </div>
+
+            <div class="status-step {% if order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+                🛵Valet is on the way (out for Delivery)
+            </div>
+            <div class="status-step {% if order.status == 'delivered' %}active{% endif %}">
+                🎉Handed over / delivered
+            </div>
+        </div> 
+        <a href="{% url 'home' %}" class="btn">Return to Menu</a>
+    </div>
+</body>
+</html>

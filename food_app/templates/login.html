@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Zomato Clone</title>
+    <style>
+        body {
+            font-family: Arial,
+            sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .auth-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: left;
+            width: 320px;
+        }
+        h2 {
+            color: #cb202d;
+            margin-top: 0;
+            text-align: center;
+        }
+        input[type="text"],input[type="password"] {width: 93%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px;}
+        .btn { width: 100%; background: #cb202d; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer;}
+        p{
+            text-align: center;
+            font-size: 14px;
+        }
+        a{
+            color: #cb202d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p}}
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>Don't have an account?
+            <a href="{% url 'signup' %}">Sign up here</a>
+        </p>
+
+    </div>
+</body>
+</html>

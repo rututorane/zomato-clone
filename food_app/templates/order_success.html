@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success</title>
+</head>
+<body style="text-align: center; margin-top: 50px; font-family: Arial, sans-serif; background-color: #f9f9f9;">
+    <div style="background: white; padding: 40px; border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h1 style="color: #4CAF50; margin-bottom: 10px;">✅Order Successful</h1>
+        <p style="color: #555; font-size: 16px;">Your order will be delivered soon. Thank you for ordering!</p>
+
+        {% if order %}
+        <p style="font-size: 18px; margin: 20px 0; color: #333;">
+            Total Amount Paid: <strong style="color: #cb202d;">Rs. {{ order.total_bill }}</strong>
+        </p>
+
+        <div style="margin-top: 25px; margin-bottom: 15px;">
+            <a href="{% url 'track_order' order.id %}" style="background-color:#4CAF50 ; color: white; padding: 12px 25px;  text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px; display: inline-block;">
+                Track My Order Status
+            </a>
+        </div>
+        {% endif %}
+
+        <div style="margin-top: 20px;">
+            <a href="{ url 'home' %}" style="color: #777; text-decoration: none; font-size: 14px;">🔙Back to Menu</a>
+        </div>
+    </div> 
+</body>
+</html>
